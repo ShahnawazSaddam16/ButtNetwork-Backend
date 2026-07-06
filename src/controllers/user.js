@@ -115,23 +115,9 @@ const userDetails = async (req, res) => {
     }
 };
 
+
 const FetchDetails = async (req, res) => {
     try {
-        const token = req.cookies?.adminToken;
-
-        if (!token) {
-            return res.status(401).json({ message: "Unauthorized" });
-        }
-
-        try {
-            const decoded = jwt.verify(token, process.env.ADMIN_JWT_SECRET);
-            if (decoded.role !== "admin") {
-                return res.status(401).json({ message: "Unauthorized" });
-            }
-        } catch (err) {
-            return res.status(401).json({ message: "Unauthorized" });
-        }
-
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 50;
         const skip = (page - 1) * limit;
