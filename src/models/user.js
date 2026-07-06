@@ -1,13 +1,5 @@
 const mongoose = require("mongoose");
 
-const locationSchema = new mongoose.Schema({
-    city: String,
-    region: String,
-    country: String,
-    latitude: Number,
-    longitude: Number
-}, { _id: false });
-
 const userSchema = new mongoose.Schema({
     ipAddress: {
         type: String,
@@ -15,10 +7,13 @@ const userSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
-    location: locationSchema,
     userAgent: {
         type: String,
         required: [true, "User agent is required"]
+    },
+    visitCount: {
+        type: Number,
+        default: 1
     },
     timestamp: {
         type: Date,
@@ -31,7 +26,6 @@ const userSchema = new mongoose.Schema({
     }
 }, { timestamps: false });
 
-userSchema.index({ ipAddress: 1 });
 userSchema.index({ timestamp: 1 });
 
 module.exports = mongoose.model("User", userSchema);
