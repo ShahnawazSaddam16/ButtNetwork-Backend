@@ -3,11 +3,18 @@ const https = require("https");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
+const normalizeIP = (ip) => {
+    if (!ip) return null;
+    const firstIp = ip.split(",")[0].trim();
+    if (firstIp.startsWith("::ffff:")) {
+        return firstIp.replace("::ffff:", "");
+    }
+    return firstIp;
+};
+
 const getUserIP = (req) => {
-    return req.headers['x-forwarded-for']?.split(',')[0] ||
-           req.headers['x-real-ip'] ||
-           req.connection.remoteAddress ||
-           req.socket.remoteAddress;
+    const rawIp = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.connection.remoteAddress || req.socket.remoteAddress;
+    return normalizeIP(rawIp);
 };
 
 const isPrivateIP = (ip) => {
@@ -18,37 +25,75 @@ const isPrivateIP = (ip) => {
         ip.startsWith("192.168.") ||
         ip.startsWith("10.") ||
         ip.startsWith("172.16.") ||
-        ip.startsWith("::ffff:127.") ||
-        ip.startsWith("::ffff:192.168.")
+        ip.startsWith("172.17.") ||
+        ip.startsWith("172.18.") ||
+        ip.startsWith("172.19.") ||
+        ip.startsWith("172.20.") ||
+        ip.startsWith("172.21.") ||
+        ip.startsWith("172.22.") ||
+        ip.startsWith("172.23.") ||
+        ip.startsWith("172.24.") ||
+        ip.startsWith("172.25.") ||
+        ip.startsWith("172.26.") ||
+        ip.startsWith("172.27.") ||
+        ip.startsWith("172.28.") ||
+        ip.startsWith("172.29.") ||
+        ip.startsWith("172.30.") ||
+        ip.startsWith("172.31.")
     );
 };
 
-const getLocationFromIP = (ip) => {
-    return new Promise((resolve) => {
-        const url = `${process.env.IP_LOCATION_API_URL || "https://ipapi.co"}/${ip}/json/`;
-        https.get(url, (response) => {
-            let data = "";
-            response.on("data", (chunk) => {
-                data += chunk;
+const getLocationFromIP = async (ip) => {
+    if (!ip) return null;
+    const ipapiUrl = `${process.env.IP_LOCATION_API_URL || "https://ipapi.co"}/${ip}/json/`;
+    const ipApiUrl = `https://ip-api.com/json/${ip}?fields=status,country,regionName,city,lat,lon,message`;
+
+    const fetchLocation = (url, parser) => {
+        return new Promise((resolve) => {
+            https.get(url, (response) => {
+                let data = "";
+                response.on("data", (chunk) => {
+                    data += chunk;
+                });
+                response.on("end", () => {
+                    try {
+                        const parsed = JSON.parse(data);
+                        resolve(parser(parsed));
+                    } catch (err) {
+                        resolve(null);
+                    }
+                });
+            }).on("error", () => {
+                resolve(null);
             });
-            response.on("end", () => {
-                try {
-                    const parsed = JSON.parse(data);
-                    resolve({
-                        city: parsed.city || null,
-                        region: parsed.region || null,
-                        country: parsed.country_name || null,
-                        latitude: parsed.latitude || null,
-                        longitude: parsed.longitude || null
-                    });
-                } catch (err) {
-                    resolve(null);
-                }
-            });
-        }).on("error", () => {
-            resolve(null);
         });
+    };
+
+    const ipapiResult = await fetchLocation(ipapiUrl, (parsed) => {
+        if (parsed?.error) return null;
+        return {
+            city: parsed.city || null,
+            region: parsed.region || null,
+            country: parsed.country_name || null,
+            latitude: parsed.latitude || null,
+            longitude: parsed.longitude || null
+        };
     });
+
+    if (ipapiResult?.city) return ipapiResult;
+
+    const ipApiResult = await fetchLocation(ipApiUrl, (parsed) => {
+        if (parsed?.status !== "success") return null;
+        return {
+            city: parsed.city || null,
+            region: parsed.regionName || null,
+            country: parsed.country || null,
+            latitude: parsed.lat || null,
+            longitude: parsed.lon || null
+        };
+    });
+
+    return ipApiResult || ipapiResult;
 };
 
 const generateToken = (userId) => {
