@@ -115,4 +115,49 @@ const userDetails = async (req, res) => {
     }
 };
 
-module.exports = { userDetails };
+const FetchDetails = async (req, res) => {
+    try {
+        const token = req.cookies?.adminToken;
+
+        if (!token) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        try {
+            const decoded = jwt.verify(token, process.env.ADMIN_JWT_SECRET);
+            if (decoded.role !== "admin") {
+                return res.status(401).json({ message: "Unauthorized" });
+            }
+        } catch (err) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 50;
+        const skip = (page - 1) * limit;
+
+        const allUsers = await User.find()
+            .sort({ lastVisit: -1 })
+            .skip(skip)
+            .limit(limit);
+
+        const totalUsers = await User.countDocuments();
+
+        res.status(200).json({
+            message: "All user data fetched successfully",
+            totalUsers,
+            page,
+            totalPages: Math.ceil(totalUsers / limit),
+            data: allUsers
+        });
+
+    } catch (error) {
+        console.error("Error in FetchDetails:", error);
+        res.status(500).json({
+            message: "Error fetching all user details",
+            error: error.message
+        });
+    }
+};
+
+module.exports = { userDetails, FetchDetails };
