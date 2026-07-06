@@ -17,7 +17,7 @@ app.use(cors({
 
 dbConnection()
 .then(()=>{console.log("✅✅ MongoDB Connected")})
-.catch(()=>{console.log("❌❌ MongoDB Disconnected")});
+.catch((err)=>{console.log(err)});
 
 app.get('/', (req,res)=>{
     res.end("Server Running Successfully");
