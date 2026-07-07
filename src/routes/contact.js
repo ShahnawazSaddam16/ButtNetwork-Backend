@@ -4,6 +4,6 @@ const limiter = require("../utils/limiter");
 const {CreateContact, FetchContact} = require("../controllers/contact");
 
 router.post("/create-contact", limiter, CreateContact);
-router.get("/all-contacts", limiter, FetchContact);
+router.get("/all-contacts", FetchContact);
 
 module.exports = router;

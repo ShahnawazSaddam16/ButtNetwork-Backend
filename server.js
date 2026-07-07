@@ -12,7 +12,7 @@ const PORT = process.env.PORT;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: ["https://buttnetworks.com", "http://localhost:3000",],
+    origin: ["https://buttnetworks.com", "http://localhost:3000", "https://admin-dashboard.buttnetworks.com"],
     credentials: true
 }));
 
