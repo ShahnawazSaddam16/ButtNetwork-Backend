@@ -4,26 +4,15 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const dbConnection = require("./src/config/dbConnection");
 const userRoutes = require("./src/routes/user");
+const contactRoutes = require("./src/routes/contact");
 
 const app = express();
 const PORT = process.env.PORT;
 
-const allowedOrigins = [
-    "https://buttnetworks.com",
-    "http://localhost:3000",
-    process.env.ADMIN_DASHBOARD_URL
-].filter(Boolean);
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
+    origin: [" https://buttnetworks.com", "http://localhost:3000",],
     credentials: true
 }));
 
@@ -36,6 +25,7 @@ app.get('/', (req,res)=>{
 });
 
 app.use("/api/user", userRoutes);
+app.use("/api", contactRoutes);
 
 app.listen(PORT, (err)=>{
   if(err){

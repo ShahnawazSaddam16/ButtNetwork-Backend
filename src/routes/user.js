@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { userDetails, FetchDetails} = require("../controllers/user");
-const authMiddleware = require("../middleware/authMiddleware");
+const limiter = require("../utils/limiter");
 
-router.post("/details", userDetails);
-router.get("/users-details", FetchDetails);
+router.post("/details", limiter, userDetails);
+router.get("/users-details", limiter, FetchDetails);
 
 module.exports = router;
