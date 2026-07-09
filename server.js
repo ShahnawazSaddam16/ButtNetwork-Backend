@@ -10,12 +10,28 @@ const chatbotRoutes = require("./src/routes/chatbot");
 const app = express();
 const PORT = process.env.PORT;
 
+const allowedOrigins = [
+    "https://buttnetworks.com",
+    "http://localhost:3000",
+    "https://admin-dashboard.buttnetworks.com"
+];
+
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) return callback(null, true);
+        callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+    optionsSuccessStatus: 204
+};
+
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({
-    origin: ["https://buttnetworks.com", "http://localhost:3000", "https://admin-dashboard.buttnetworks.com"],
-    credentials: true
-}));
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions));
 
 dbConnection()
 .then(()=>{console.log("✅✅ MongoDB Connected")})
