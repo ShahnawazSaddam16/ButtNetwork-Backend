@@ -1,0 +1,57 @@
+[
+  {
+    "id": "company-overview",
+    "category": "company",
+    "content": "Butt Networks is a software house founded and personally engineered end-to-end by Shahnawaz Saddam Butt. The company designs and ships websites, web apps, mobile apps, backends, and APIs for businesses that need reliable, production-ready software. Shahnawaz is the Chief Executive Officer, leading strategy, product vision, design, and engineering across every part of the company single-handedly."
+  },
+  {
+    "id": "stack",
+    "category": "technology",
+    "content": "Butt Networks builds every project on Next.js for the frontend, Supabase for the backend, authentication, storage, and database layer, and Groq for ultra-low-latency real-time AI features. Additional tools used across projects include JavaScript, Tailwind CSS, PostgreSQL, Node.js, Vercel for frontend deployment, MongoDB for schema-less data needs, and self-managed VPS hosting for projects needing full server control."
+  },
+  {
+    "id": "services",
+    "category": "services",
+    "content": "Butt Networks offers Web Development for fast responsive websites, Web Apps for interactive scalable business applications, Backend & APIs for RESTful and robust backend systems, AI Integration for embedding AI models and intelligent features into products, System Design for scalable architecture, and Mobile Apps for cross-platform apps with a native-like feel."
+  },
+  {
+    "id": "problems-fixed",
+    "category": "services",
+    "content": "Butt Networks specializes in fixing slow load times, poor search engine visibility, low conversion rates, clunky and confusing UX, security gaps from outdated dependencies, and scaling issues where systems break under growth."
+  },
+  {
+    "id": "pricing",
+    "category": "pricing",
+    "content": "Butt Networks does not publish fixed pricing since every project scope differs. Pricing depends on project complexity, timeline, and required features. Interested clients should reach out directly via WhatsApp or email for a custom quote based on their specific requirements."
+  },
+  {
+    "id": "contact",
+    "category": "contact",
+    "content": "Butt Networks can be reached via WhatsApp at +92 300 4907243, by email at buttnetworksofficial@gmail.com, or on Instagram at instagram.com/buttnetworks. The contact page is available at buttnetworks.com/contact."
+  },
+  {
+    "id": "project-resume-ai",
+    "category": "projects",
+    "content": "Resume-AI is an AI-powered resume builder built with Next.js and Tailwind CSS, featuring Groq-based AI generation, Stripe payments, and a fully responsive UI. It was built by Shahnawaz Saddam Butt as Full Stack Developer, live at resume-ai.buttnetworks.com."
+  },
+  {
+    "id": "project-valuemax",
+    "category": "projects",
+    "content": "Value Max is a client project: a modern grocery store landing page built with Next.js and Tailwind CSS, featuring a clean interface, responsive layouts, promotional sections, and an optimized shopping experience, live at valuemax.com.pk."
+  },
+  {
+    "id": "project-fitpath",
+    "category": "projects",
+    "content": "Fit-Path is a full-stack fitness tracking mobile app built with React Native and NativeWind, featuring personalized workout plans, progress tracking, and a clean responsive interface for daily use."
+  },
+  {
+    "id": "project-url-shortener",
+    "category": "projects",
+    "content": "URL Shortener is a full-stack SaaS platform built with Next.js, Tailwind CSS, Node.js, Express, MongoDB, and Stripe, offering plan-based access and link analytics for developers and businesses needing branded short links at scale, live at url-shortener.buttnetworks.com."
+  },
+  {
+    "id": "project-spotify-clone",
+    "category": "projects",
+    "content": "Spotify-Clone is a full-stack music streaming app built with React Native and NativeWind, featuring music streaming, playlist management, and a real-time audio player replicating the core Spotify experience."
+  }
+]
