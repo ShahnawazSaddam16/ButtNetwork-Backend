@@ -11,6 +11,7 @@ const app = express();
 const PORT = process.env.PORT;
 
 const allowedOrigins = [
+    "https://api.buttnetworks.com",
     "https://buttnetworks.com",
     "http://localhost:3000",
     "https://admin-dashboard.buttnetworks.com"
