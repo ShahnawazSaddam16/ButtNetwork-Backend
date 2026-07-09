@@ -5,6 +5,7 @@ const cookieParser = require("cookie-parser");
 const dbConnection = require("./src/config/dbConnection");
 const userRoutes = require("./src/routes/user");
 const contactRoutes = require("./src/routes/contact");
+const chatbotRoutes = require("./src/routes/chatbot");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -26,6 +27,8 @@ app.get('/', (req,res)=>{
 
 app.use("/api/user", userRoutes);
 app.use("/api", contactRoutes);
+app.use ("/api", chatbotRoutes);
+
 
 app.listen(PORT, (err)=>{
   if(err){
