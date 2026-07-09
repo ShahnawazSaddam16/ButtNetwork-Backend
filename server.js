@@ -14,7 +14,7 @@ const PORT = process.env.PORT;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: ["https://buttnetworks.com", "https://admin-dashboard.buttnetworks.com", "http://localhost:3000"]
+  origin: ["https://buttnetworks.com", "https://api.buttnetworks.com", "https://admin-dashboard.buttnetworks.com", "http://localhost:3000"]
 }));
 
 dbConnection()
